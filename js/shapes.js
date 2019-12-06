@@ -53,12 +53,43 @@ const drawRectangle = function() {
     const context = canvas.getContext('2d');
     context.clearRect(0, 0, canvas.width, canvas.height);
 
+    let terminate;
     do {
-        var xCoord = prompt()
+        var width = Number(prompt("Width: "));
+        var height = Number(prompt("Height: "));
+        var x = Number(prompt("X: "));
+        var y = Number(prompt("Y: "));
+        
+        if (width < 1 || width > canvas.width) {
+            alert("Your width must be between 1 and 1024.");
+            terminate = false;
+        }
+        else if (height < 1 || height > canvas.height) {
+            alert("Your height must be between 1 and 512.");
+            terminate = false;
+        }
+        else if (x < 1 || x > canvas.width) {
+            alert("Your x-coordinate must be between 1 and 1024.");
+            terminate = false;
+        }
+        else if (y < 1 || y > canvas.height) {
+            alert("Your y-coordinate must be between 1 and 512.");
+            terminate = false;
+        }
+        else if (((x + width) > canvas.width) || ((y + height) > canvas.height)) {
+            alert("Your rectangle won't fit on the canvas.");
+            terminate = false;
+        }
+        else if (width == null || height == null || x == null || y == null) {
+            terminate = true;
+        }
 
-    }
+    } while (terminate == false);
 
-};
+    context.strokeRect(x, y, width, height);
+
+    // this loop does not end
+}
 
 /*
  * Exercise 3.
