@@ -277,10 +277,6 @@ const drawPyramid = function() {
     } while (terminate == false);
 
 
-
-    
-
-
     /*
      * bottom left origin is 10, 502
      * height upper threshold is 502/5 = 100.4
