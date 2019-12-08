@@ -62,32 +62,25 @@ const drawRectangle = function() {
         
         if (width == 0 && height == 0 && x == 0 && y == 0) {
             terminate = true;
-        }
-        else if (width < 1 || width > canvas.width) {
+        } else if (width < 1 || width > canvas.width) {
             alert("Your width must be between 1 and 1024.");
             terminate = false;
-        }
-        else if (height < 1 || height > canvas.height) {
+        } else if (height < 1 || height > canvas.height) {
             alert("Your height must be between 1 and 512.");
             terminate = false;
-        }
-        else if (x < 1 || x > canvas.width) {
+        } else if (x < 1 || x > canvas.width) {
             alert("Your x-coordinate must be between 1 and 1024.");
             terminate = false;
-        }
-        else if (y < 1 || y > canvas.height) {
+        } else if (y < 1 || y > canvas.height) {
             alert("Your y-coordinate must be between 1 and 512.");
             terminate = false;
-        }
-        else if (((x + width) > canvas.width) || ((y + height) > canvas.height)) {
+        } else if (((x + width) > canvas.width) || ((y + height) > canvas.height)) {
             alert("Your rectangle won't fit on the canvas.");
             terminate = false;
-        }
-        else if (isNaN(width) || isNaN(height) || isNaN(x) || isNaN(y)) {
+        } else if (isNaN(width) || isNaN(height) || isNaN(x) || isNaN(y)) {
             alert("One of your values is not a number.");
             terminate = false;
-        }
-        else {
+        } else {
             terminate = true;
         }
     } while (terminate == false);
@@ -111,13 +104,11 @@ const drawColoredRectangle = function() {
 
         if (color === 0) {
             terminate = true;
-        }
-        else if (color !== "black" && color !== "blue" && color !== "green" && color !== "orange" && color !== "purple" && color !== "red" && color !== "yellow") {
+        } else if (color !== "black" && color !== "blue" && color !== "green" && color !== "orange" && color !== "purple" && color !== "red" && color !== "yellow") {
             alert(`${color} is not a supported color.`);  
             context.clearRect(0, 0, canvas.width, canvas.height);         
             terminate = false;  
-        }
-        else {
+        } else {
             terminate = true;
         }
     } while (terminate == false);
@@ -143,28 +134,22 @@ const drawTriangle = function() {
 
         if (side1 === 0 || side2 === 0 || side3 === 0){
             terminate = true;
-        }
-        else if (isNaN(side1) || isNaN(side2) || isNaN(side3)) {
+        } else if (isNaN(side1) || isNaN(side2) || isNaN(side3)) {
             alert("One of your sides is not a number.");
             terminate = false;
-        }
-        else if (Math.hypot(side1, side2) != side3) {
+        } else if (Math.hypot(side1, side2) != side3) {
             alert("That's not a valid right triangle.");
             terminate = false;
-        }
-        else if (side1 > canvas.height || side1 > canvas.width || side1 < 1) {
+        } else if (side1 > canvas.height || side1 > canvas.width || side1 < 1) {
             alert("Your triangle won't fit on the canvas.");
             terminate = false;
-        }
-        else if (side2 > canvas.height || side2 > canvas.width || side2 < 1) {
+        } else if (side2 > canvas.height || side2 > canvas.width || side2 < 1) {
             alert("Your triangle won't fit on the canvas.");
             terminate = false;
-        }
-        else if (side3 > canvas.height || side3 > canvas.width || side3 < 1) {
+        } else if (side3 > canvas.height || side3 > canvas.width || side3 < 1) {
             alert("Your triangle won't fit on the canvas.");
             terminate = false;
-        }
-        else {
+        } else {
             terminate = true;
         }
     } while (terminate == false);
@@ -200,20 +185,16 @@ const drawFace = function() {
 
         if (radius === 0) {
             terminate = true;
-        }
-        else if (isNaN(radius)) {
+        } else if (isNaN(radius)) {
             alert("Your radius is not a number.");
             terminate = false;
-        }
-        else if (radius > 256) {
+        } else if (radius > 256) {
             alert("Your smiley face won't fit on the canvas.");
             terminate = false;
-        }
-        else if (radius < 32) {
+        } else if (radius < 32) {
             alert("Your radius must be at least 32.");
             terminate = false;
-        }
-        else {
+        } else {
             terminate = true;
         }
     } while (terminate == false);
@@ -252,30 +233,26 @@ const drawPyramid = function() {
     context.clearRect(0, 0, canvas.width, canvas.height);
 
     const SIZE_UPPER_THRESHOLD = 100.4;
+    let side;
     let terminate;
     do {
-        var side = Number(prompt("Side: "));
+        side = Number(prompt("Side: "));
 
-        if (side === 0) {
+        if (side == 0) {
             terminate = true;
-        }
-        else if (isNaN(side)) {
+        } else if (isNaN(side)) {
             alert("Your block size is not a number.");
             terminate = false;
-        }
-        else if (side < 1) {
+        } else if (side < 1) {
             alert("Your block size must be at least 1.");
             terminate = false;
-        }
-        else if (size > SIZE_UPPER_THRESHOLD) {
+        } else if (side > SIZE_UPPER_THRESHOLD) {
             alert("Your pyramid won't fit on the canvas.");
             terminate = false;
-        }
-        else {
+        } else {
             terminate = true;
         }
     } while (terminate == false);
-
 
     /*
      * bottom left origin is 10, 502
@@ -286,5 +263,137 @@ const drawPyramid = function() {
      * connect the two points
      * rinse, repeat
      * (for loop for the upward lines)
+     * 
+     * apply #4d4d4d as needed
+     * 
+     * @MrWilson there was probably a more efficient way to do this 
+     * but i tried my best 
      */
+
+    context.beginPath();
+    context.strokeStyle = "#4d4d4d";
+    context.moveTo(10, 502);
+    context.lineTo(10 + (side * 5), 502);
+    context.stroke();
+    context.closePath();
+    
+    for (let i = 0; i <= 5; i++) {
+        if (i > 0 && i < 5) {
+            context.strokeStyle = "#000000";
+        }
+        else {
+            context.strokeStyle = "#4d4d4d";
+        }
+        context.beginPath();
+        context.moveTo(10 + (side * (5 - i)), 502);
+        context.lineTo(10 + (side * (5 - i)), (502 - side));
+        context.stroke();
+        context.closePath();
+    }
+
+    context.beginPath();
+    context.moveTo(10, (502 - side));
+    context.strokeStyle = "#4d4d4d";
+    context.lineTo(10 + (side * 0.5), (502 - side));
+    context.stroke();
+    context.strokeStyle = "#000000";
+    context.lineTo(10 + (side * (0.5 + 4)), (502 - side));
+    context.stroke();
+    context.strokeStyle = "#4d4d4d";
+    context.lineTo(10 + (side * 5), (502 - side));
+    context.stroke();
+    context.moveTo(10 + (side * 4.5), (502 - side));
+    context.closePath();
+
+    for (let i = 0; i <= 4; i++) {
+        if (i > 0 && i < 4) {
+            context.strokeStyle = "#000000";
+        }
+        else {
+            context.strokeStyle = "#4d4d4d";
+        }
+        context.beginPath();
+        context.moveTo(10 + (side * (4.5 - i)), (502 - side));
+        context.lineTo(10 + (side * (4.5 - i)), (502 - (side * 2)));
+        context.stroke();
+        context.closePath();
+    }
+
+    context.beginPath();
+    context.moveTo(10 + (side * 0.5), (502 - (side * 2)));
+    context.strokeStyle = "#4d4d4d";
+    context.lineTo(10 + side, (502 - (side * 2)));
+    context.stroke();
+    context.strokeStyle = "#000000";
+    context.lineTo(10 + (side * 4), (502 - (side * 2)));
+    context.stroke();
+    context.strokeStyle = "#4d4d4d";
+    context.lineTo(10 + (side * 4.5), (502 - (side * 2)));
+    context.stroke();
+    context.moveTo(10 + (side * 4), (502 - (side * 2)));
+    context.closePath();
+
+    for (let i = 0; i <= 3; i++) {
+        if (i > 0 && i < 3) {
+            context.strokeStyle = "#000000";
+        }
+        else {
+            context.strokeStyle = "#4d4d4d";
+        }
+        context.beginPath();
+        context.moveTo(10 + (side * (4 - i)), (502 - (side * 2)));
+        context.lineTo(10 + (side * (4 - i)), (502 - (side * 3)));
+        context.stroke();
+        context.closePath();
+    }
+
+    context.beginPath();
+    context.strokeStyle = "#4d4d4d";
+    context.moveTo(10 + side, (502 - (side * 3)));
+    context.lineTo(10 + (side * 1.5), (502 - (side * 3)));
+    context.stroke();
+    context.strokeStyle = "#000000";
+    context.lineTo(10 + (side * 3.5), (502 - (side * 3)));
+    context.stroke();
+    context.strokeStyle = "#4d4d4d";
+    context.lineTo(10 + (side * 4), (502 - (side * 3)));
+    context.stroke();
+    context.moveTo(10 + (side * 3.5), (502 - (side * 3)));
+    context.closePath();
+
+    for (let i = 0; i <= 2; i++) {
+        if (i == 1) {
+            context.strokeStyle = "#000000";
+        }
+        else {
+            context.strokeStyle = "#4d4d4d";
+        }
+        context.beginPath();
+        context.moveTo(10 + (side * (3.5 - i)), (502 - (side * 3)));
+        context.lineTo(10 + (side * (3.5 - i)), (502 - (side * 4)));
+        context.stroke();
+        context.closePath();
+    }
+
+    context.beginPath();
+    context.strokeStyle = "#4d4d4d";
+    context.moveTo(10 + (side * 1.5), (502 - (side * 4)));
+    context.lineTo(10 + (side * 2), (502 - (side * 4)));
+    context.stroke();
+    context.strokeStyle = "#000000";
+    context.lineTo(10 + (side * 3), (502 - (side * 4)));
+    context.stroke();
+    context.strokeStyle = "#4d4d4d";
+    context.lineTo(10 + (side * 3.5), (502 - (side * 4)));
+    context.stroke();
+    context.moveTo(10 + (side * 3), (502 - (side * 4)));
+    context.lineTo(10 + (side * 3), (502 - (side * 5)));
+    context.stroke();
+    context.moveTo(10 + (side * 2), (502 - (side * 4)));
+    context.lineTo(10 + (side * 2), (502 - (side * 5)));
+    context.stroke();
+    context.moveTo(10 + (side * 2), (502 - (side * 5)));
+    context.lineTo(10 + (side * 3), (502 - (side * 5)));
+    context.stroke();
+    context.closePath();
 }
