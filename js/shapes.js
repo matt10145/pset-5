@@ -86,7 +86,7 @@ const drawRectangle = function() {
     } while (terminate == false);
 
     context.strokeRect(x, y, width, height);
-}
+};
 
 /*
  * Exercise 3.
@@ -126,27 +126,32 @@ const drawTriangle = function() {
     const context = canvas.getContext('2d');
     context.clearRect(0, 0, canvas.width, canvas.height);
 
+    const HYPOTENUSE_THRESHOLD = 1131;
     let terminate;
     do {
         var side1 = Number(prompt("Side 1: "));
         var side2 = Number(prompt("Side 2: "));
         var side3 = Number(prompt("Side 3: "));
 
-        if (side1 === 0 || side2 === 0 || side3 === 0){
+        var height = Math.min(side1, side2, side3);
+        var hypotenuse = Math.max(side1, side2, side3);
+        var base = Math.sqrt((hypotenuse ** 2) - (height ** 2));
+    
+        if (side1 === 0 || side2 === 0 || side3 === 0) {
             terminate = true;
         } else if (isNaN(side1) || isNaN(side2) || isNaN(side3)) {
             alert("One of your sides is not a number.");
             terminate = false;
-        } else if (Math.hypot(side1, side2) != side3) {
+        } else if ((Math.hypot(height, base)) != hypotenuse) {
             alert("That's not a valid right triangle.");
             terminate = false;
-        } else if (side1 > canvas.height || side1 > canvas.width || side1 < 1) {
+        } else if (height > canvas.height || height < 1) {
             alert("Your triangle won't fit on the canvas.");
             terminate = false;
-        } else if (side2 > canvas.height || side2 > canvas.width || side2 < 1) {
+        } else if (base > canvas.width || base < 1) {
             alert("Your triangle won't fit on the canvas.");
             terminate = false;
-        } else if (side3 > canvas.height || side3 > canvas.width || side3 < 1) {
+        } else if (hypotenuse > HYPOTENUSE_THRESHOLD || hypotenuse < 1) {
             alert("Your triangle won't fit on the canvas.");
             terminate = false;
         } else {
@@ -154,11 +159,7 @@ const drawTriangle = function() {
         }
     } while (terminate == false);
 
-    let height = Math.min(side1, side2, side3);
-    let hypotenuse = Math.max(side1, side2, side3);
-    let base = Math.sqrt(((hypotenuse ** 2) - (height ** 2)));
-
-    if (side1 !== 0 && side2 !== 0 && side3 !== 0) {
+    if (Math.hypot(height, base) == hypotenuse) {
         context.beginPath();
         context.moveTo(25, 25);
         context.lineTo(25, (25 + height));
@@ -166,7 +167,7 @@ const drawTriangle = function() {
         context.closePath();
         context.stroke();    
     }
-};  
+};
 
 /*
  * Exercise 5.
@@ -254,7 +255,7 @@ const drawPyramid = function() {
         }
     } while (terminate == false);
 
-    /*
+    /**
      * bottom left origin is 10, 502
      * height upper threshold is 502/5 = 100.4
      * 
@@ -266,7 +267,7 @@ const drawPyramid = function() {
      * 
      * apply #4d4d4d as needed
      * 
-     * @MrWilson there was probably a more efficient way to do this 
+     * @ MrWilson there was probably a more efficient way to do this 
      * but i tried my best 
      */
 
@@ -396,4 +397,4 @@ const drawPyramid = function() {
     context.lineTo(10 + (side * 3), (502 - (side * 5)));
     context.stroke();
     context.closePath();
-}
+};
