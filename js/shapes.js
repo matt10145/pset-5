@@ -23,14 +23,25 @@ const sayHello = function() {
     const context = canvas.getContext('2d');
     context.clearRect(0, 0, canvas.width, canvas.height);
 
+    let terminate;
     do {
         var input = prompt("Message: ");
-        if (input.length > 50) {
-            alert("Your message is too long. Keep it under 50 characters.");
+        if (input == null) {
+            terminate = true;
         }
-    } while (input.length > 50);
-    context.font = ("48px sans-serif");
-    context.strokeText(input, 30, 70, 994);
+        else if (input.length > 50) {
+            alert("Your message is too long. Keep it under 50 characters.");
+            terminate = false;
+        }
+        else {
+            terminate = true;
+        }
+    } while (terminate == false);
+
+    if (input != null) {
+        context.font = ("48px sans-serif");
+        context.strokeText(input, 30, 70, 994);    
+    }
 };
 
 /*
@@ -44,29 +55,34 @@ const drawRectangle = function() {
 
     let terminate;
     do {
-        var width = Number(prompt("Width: "));
-        var height = Number(prompt("Height: "));
-        var x = Number(prompt("X: "));
-        var y = Number(prompt("Y: "));
+        var width = prompt("Width: ");
+        var height = prompt("Height: ");
+        var x = prompt("X: ");
+        var y = prompt("Y: ");
 
-        if (width == 0 && height == 0 && x == 0 && y == 0) {
+        var widthNum = Number(width);
+        var heightNum = Number(height);
+        var xNum = Number(x);
+        var yNum = Number(y);
+
+        if (width == null && height == null && x == null && y == null) {
             terminate = true;
-        } else if (width < 1 || width > canvas.width) {
+        } else if (widthNum < 1 || widthNum > canvas.width) {
             alert("Your width must be between 1 and 1024.");
             terminate = false;
-        } else if (height < 1 || height > canvas.height) {
+        } else if (heightNum < 1 || heightNum > canvas.height) {
             alert("Your height must be between 1 and 512.");
             terminate = false;
-        } else if (x < 1 || x > canvas.width) {
+        } else if (xNum < 1 || xNum > canvas.width) {
             alert("Your x-coordinate must be between 1 and 1024.");
             terminate = false;
-        } else if (y < 1 || y > canvas.height) {
+        } else if (yNum < 1 || yNum > canvas.height) {
             alert("Your y-coordinate must be between 1 and 512.");
             terminate = false;
-        } else if (((x + width) > canvas.width) || ((y + height) > canvas.height)) {
+        } else if (((xNum + widthNum) > canvas.width) || ((yNum + heightNum) > canvas.height)) {
             alert("Your rectangle won't fit on the canvas.");
             terminate = false;
-        } else if (isNaN(width) || isNaN(height) || isNaN(x) || isNaN(y)) {
+        } else if (isNaN(widthNum) || isNaN(heightNum) || isNaN(xNum) || isNaN(yNum)) {
             alert("One of your values is not a number.");
             terminate = false;
         } else {
@@ -91,7 +107,7 @@ const drawColoredRectangle = function() {
         var color = prompt("Color: ");
         color = color.toLowerCase();
 
-        if (color === 0) {
+        if (color == null) {
             terminate = true;
         } else if (color !== "black" && color !== "blue" && color !== "green" && color !== "orange" && color !== "purple" && color !== "red" && color !== "yellow") {
             alert(`${color} is not a supported color.`);
@@ -130,10 +146,6 @@ const drawTriangle = function() {
         var height = Math.min(side1_num, side2_num, side3_num);
         var hypotenuse = Math.max(side1_num, side2_num, side3_num);
         var base = sum - (height + hypotenuse);
-
-        console.log(height);
-        console.log(hypotenuse);
-        console.log(base);
 
         if (side1 == null|| side2 == null || side3 == null) {
             terminate = true;
@@ -232,21 +244,22 @@ const drawPyramid = function() {
     const context = canvas.getContext('2d');
     context.clearRect(0, 0, canvas.width, canvas.height);
 
-    const SIZE_UPPER_THRESHOLD = 100.4;
+    const SIZE_UPPER_THRESHOLD = 100.4; // in pixels
     let side;
     let terminate;
     do {
-        side = Number(prompt("Side: "));
+        side = prompt("Side: ");
+        var sideNum = Number(side);
 
-        if (side == 0) {
+        if (side == null) {
             terminate = true;
-        } else if (isNaN(side)) {
+        } else if (isNaN(sideNum)) {
             alert("Your block size is not a number.");
             terminate = false;
-        } else if (side < 1) {
+        } else if (sideNum < 1) {
             alert("Your block size must be at least 1.");
             terminate = false;
-        } else if (side > SIZE_UPPER_THRESHOLD) {
+        } else if (sideNum > SIZE_UPPER_THRESHOLD) {
             alert("Your pyramid won't fit on the canvas.");
             terminate = false;
         } else {
@@ -271,7 +284,7 @@ const drawPyramid = function() {
     context.beginPath();
     context.strokeStyle = "#4d4d4d";
     context.moveTo(10, 502);
-    context.lineTo(10 + (side * 5), 502);
+    context.lineTo(10 + (sideNum * 5), 502);
     context.stroke();
     context.closePath();
 
@@ -283,24 +296,24 @@ const drawPyramid = function() {
             context.strokeStyle = "#4d4d4d";
         }
         context.beginPath();
-        context.moveTo(10 + (side * (5 - i)), 502);
-        context.lineTo(10 + (side * (5 - i)), (502 - side));
+        context.moveTo(10 + (sideNum * (5 - i)), 502);
+        context.lineTo(10 + (sideNum * (5 - i)), (502 - sideNum));
         context.stroke();
         context.closePath();
     }
 
     context.beginPath();
-    context.moveTo(10, (502 - side));
+    context.moveTo(10, (502 - sideNum));
     context.strokeStyle = "#4d4d4d";
-    context.lineTo(10 + (side * 0.5), (502 - side));
+    context.lineTo(10 + (sideNum * 0.5), (502 - sideNum));
     context.stroke();
     context.strokeStyle = "#000000";
-    context.lineTo(10 + (side * (0.5 + 4)), (502 - side));
+    context.lineTo(10 + (sideNum * (0.5 + 4)), (502 - sideNum));
     context.stroke();
     context.strokeStyle = "#4d4d4d";
-    context.lineTo(10 + (side * 5), (502 - side));
+    context.lineTo(10 + (sideNum * 5), (502 - sideNum));
     context.stroke();
-    context.moveTo(10 + (side * 4.5), (502 - side));
+    context.moveTo(10 + (sideNum * 4.5), (502 - sideNum));
     context.closePath();
 
     for (let i = 0; i <= 4; i++) {
@@ -311,24 +324,24 @@ const drawPyramid = function() {
             context.strokeStyle = "#4d4d4d";
         }
         context.beginPath();
-        context.moveTo(10 + (side * (4.5 - i)), (502 - side));
-        context.lineTo(10 + (side * (4.5 - i)), (502 - (side * 2)));
+        context.moveTo(10 + (sideNum * (4.5 - i)), (502 - sideNum));
+        context.lineTo(10 + (sideNum * (4.5 - i)), (502 - (sideNum * 2)));
         context.stroke();
         context.closePath();
     }
 
     context.beginPath();
-    context.moveTo(10 + (side * 0.5), (502 - (side * 2)));
+    context.moveTo(10 + (sideNum * 0.5), (502 - (sideNum * 2)));
     context.strokeStyle = "#4d4d4d";
-    context.lineTo(10 + side, (502 - (side * 2)));
+    context.lineTo(10 + sideNum, (502 - (sideNum * 2)));
     context.stroke();
     context.strokeStyle = "#000000";
-    context.lineTo(10 + (side * 4), (502 - (side * 2)));
+    context.lineTo(10 + (sideNum * 4), (502 - (sideNum * 2)));
     context.stroke();
     context.strokeStyle = "#4d4d4d";
-    context.lineTo(10 + (side * 4.5), (502 - (side * 2)));
+    context.lineTo(10 + (sideNum * 4.5), (502 - (sideNum * 2)));
     context.stroke();
-    context.moveTo(10 + (side * 4), (502 - (side * 2)));
+    context.moveTo(10 + (sideNum * 4), (502 - (sideNum * 2)));
     context.closePath();
 
     for (let i = 0; i <= 3; i++) {
@@ -339,24 +352,24 @@ const drawPyramid = function() {
             context.strokeStyle = "#4d4d4d";
         }
         context.beginPath();
-        context.moveTo(10 + (side * (4 - i)), (502 - (side * 2)));
-        context.lineTo(10 + (side * (4 - i)), (502 - (side * 3)));
+        context.moveTo(10 + (sideNum * (4 - i)), (502 - (sideNum * 2)));
+        context.lineTo(10 + (sideNum * (4 - i)), (502 - (sideNum * 3)));
         context.stroke();
         context.closePath();
     }
 
     context.beginPath();
     context.strokeStyle = "#4d4d4d";
-    context.moveTo(10 + side, (502 - (side * 3)));
-    context.lineTo(10 + (side * 1.5), (502 - (side * 3)));
+    context.moveTo(10 + sideNum, (502 - (sideNum * 3)));
+    context.lineTo(10 + (sideNum * 1.5), (502 - (sideNum * 3)));
     context.stroke();
     context.strokeStyle = "#000000";
-    context.lineTo(10 + (side * 3.5), (502 - (side * 3)));
+    context.lineTo(10 + (sideNum * 3.5), (502 - (sideNum * 3)));
     context.stroke();
     context.strokeStyle = "#4d4d4d";
-    context.lineTo(10 + (side * 4), (502 - (side * 3)));
+    context.lineTo(10 + (sideNum * 4), (502 - (sideNum * 3)));
     context.stroke();
-    context.moveTo(10 + (side * 3.5), (502 - (side * 3)));
+    context.moveTo(10 + (sideNum * 3.5), (502 - (sideNum * 3)));
     context.closePath();
 
     for (let i = 0; i <= 2; i++) {
@@ -367,31 +380,31 @@ const drawPyramid = function() {
             context.strokeStyle = "#4d4d4d";
         }
         context.beginPath();
-        context.moveTo(10 + (side * (3.5 - i)), (502 - (side * 3)));
-        context.lineTo(10 + (side * (3.5 - i)), (502 - (side * 4)));
+        context.moveTo(10 + (sideNum * (3.5 - i)), (502 - (sideNum * 3)));
+        context.lineTo(10 + (sideNum * (3.5 - i)), (502 - (sideNum * 4)));
         context.stroke();
         context.closePath();
     }
 
     context.beginPath();
     context.strokeStyle = "#4d4d4d";
-    context.moveTo(10 + (side * 1.5), (502 - (side * 4)));
-    context.lineTo(10 + (side * 2), (502 - (side * 4)));
+    context.moveTo(10 + (sideNum * 1.5), (502 - (sideNum * 4)));
+    context.lineTo(10 + (sideNum * 2), (502 - (sideNum * 4)));
     context.stroke();
     context.strokeStyle = "#000000";
-    context.lineTo(10 + (side * 3), (502 - (side * 4)));
+    context.lineTo(10 + (sideNum * 3), (502 - (sideNum * 4)));
     context.stroke();
     context.strokeStyle = "#4d4d4d";
-    context.lineTo(10 + (side * 3.5), (502 - (side * 4)));
+    context.lineTo(10 + (sideNum * 3.5), (502 - (sideNum * 4)));
     context.stroke();
-    context.moveTo(10 + (side * 3), (502 - (side * 4)));
-    context.lineTo(10 + (side * 3), (502 - (side * 5)));
+    context.moveTo(10 + (sideNum * 3), (502 - (sideNum * 4)));
+    context.lineTo(10 + (sideNum * 3), (502 - (sideNum * 5)));
     context.stroke();
-    context.moveTo(10 + (side * 2), (502 - (side * 4)));
-    context.lineTo(10 + (side * 2), (502 - (side * 5)));
+    context.moveTo(10 + (sideNum * 2), (502 - (sideNum * 4)));
+    context.lineTo(10 + (sideNum * 2), (502 - (sideNum * 5)));
     context.stroke();
-    context.moveTo(10 + (side * 2), (502 - (side * 5)));
-    context.lineTo(10 + (side * 3), (502 - (side * 5)));
+    context.moveTo(10 + (sideNum * 2), (502 - (sideNum * 5)));
+    context.lineTo(10 + (sideNum * 3), (502 - (sideNum * 5)));
     context.stroke();
     context.closePath();
 };
