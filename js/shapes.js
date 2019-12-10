@@ -59,7 +59,7 @@ const drawRectangle = function() {
         var height = Number(prompt("Height: "));
         var x = Number(prompt("X: "));
         var y = Number(prompt("Y: "));
-        
+
         if (width == 0 && height == 0 && x == 0 && y == 0) {
             terminate = true;
         } else if (width < 1 || width > canvas.width) {
@@ -105,9 +105,9 @@ const drawColoredRectangle = function() {
         if (color === 0) {
             terminate = true;
         } else if (color !== "black" && color !== "blue" && color !== "green" && color !== "orange" && color !== "purple" && color !== "red" && color !== "yellow") {
-            alert(`${color} is not a supported color.`);  
-            context.clearRect(0, 0, canvas.width, canvas.height);         
-            terminate = false;  
+            alert(`${color} is not a supported color.`);
+            context.clearRect(0, 0, canvas.width, canvas.height);
+            terminate = false;
         } else {
             terminate = true;
         }
@@ -129,15 +129,24 @@ const drawTriangle = function() {
     const HYPOTENUSE_THRESHOLD = 1131;
     let terminate;
     do {
-        var side1 = Number(prompt("Side 1: "));
-        var side2 = Number(prompt("Side 2: "));
-        var side3 = Number(prompt("Side 3: "));
+        var side1 = prompt("Side 1: ");
+        var side2 = prompt("Side 2: ");
+        var side3 = prompt("Side 3: ");
 
-        var height = Math.min(side1, side2, side3);
-        var hypotenuse = Math.max(side1, side2, side3);
-        var base = Math.sqrt((hypotenuse ** 2) - (height ** 2));
-    
-        if (side1 === 0 || side2 === 0 || side3 === 0) {
+        var side1_num = Number(side1);
+        var side2_num = Number(side2);
+        var side3_num = Number(side3);
+        var sum = side1_num + side2_num + side3_num;
+
+        var height = Math.min(side1_num, side2_num, side3_num);
+        var hypotenuse = Math.max(side1_num, side2_num, side3_num);
+        var base = sum - (height + hypotenuse);
+
+        console.log(height);
+        console.log(hypotenuse);
+        console.log(base);
+
+        if (side1 == null|| side2 == null || side3 == null) {
             terminate = true;
         } else if (isNaN(side1) || isNaN(side2) || isNaN(side3)) {
             alert("One of your sides is not a number.");
@@ -145,13 +154,13 @@ const drawTriangle = function() {
         } else if ((Math.hypot(height, base)) != hypotenuse) {
             alert("That's not a valid right triangle.");
             terminate = false;
-        } else if (height > canvas.height || height < 1) {
+        } else if (height > canvas.height || height < 0) {
             alert("Your triangle won't fit on the canvas.");
             terminate = false;
-        } else if (base > canvas.width || base < 1) {
+        } else if (base > canvas.width || base < 0) {
             alert("Your triangle won't fit on the canvas.");
             terminate = false;
-        } else if (hypotenuse > HYPOTENUSE_THRESHOLD || hypotenuse < 1) {
+        } else if (hypotenuse > HYPOTENUSE_THRESHOLD || hypotenuse < 0) {
             alert("Your triangle won't fit on the canvas.");
             terminate = false;
         } else {
@@ -165,7 +174,7 @@ const drawTriangle = function() {
         context.lineTo(25, (25 + height));
         context.lineTo((25 + base), (25 + height));
         context.closePath();
-        context.stroke();    
+        context.stroke();
     }
 };
 
@@ -182,17 +191,18 @@ const drawFace = function() {
     let centerEye;
     let terminate;
     do {
-        var radius = Number(prompt("Radius: "));
+        var radius = prompt("Radius: ");
+        radius1 = Number(radius);
 
-        if (radius === 0) {
+        if (radius == null) {
             terminate = true;
         } else if (isNaN(radius)) {
             alert("Your radius is not a number.");
             terminate = false;
-        } else if (radius > 256) {
+        } else if (radius1 > 256) {
             alert("Your smiley face won't fit on the canvas.");
             terminate = false;
-        } else if (radius < 32) {
+        } else if (radius1 < 32) {
             alert("Your radius must be at least 32.");
             terminate = false;
         } else {
@@ -200,13 +210,13 @@ const drawFace = function() {
         }
     } while (terminate == false);
 
-    radiusEye = radius * 0.15;
-    radiusMouth = radius * 0.70;
-    centerEye = radius * 0.40;
-    
-    if (radius !== 0) {
+    radiusEye = radius1 * 0.15;
+    radiusMouth = radius1 * 0.70;
+    centerEye = radius1 * 0.40;
+
+    if (radius1 !== 0) {
         context.beginPath();
-        context.arc(512, 256, radius, 0, (2*PI));
+        context.arc(512, 256, radius1, 0, (2*PI));
         context.stroke();
         context.closePath();
         context.beginPath();
@@ -258,17 +268,15 @@ const drawPyramid = function() {
     /**
      * bottom left origin is 10, 502
      * height upper threshold is 502/5 = 100.4
-     * 
+     *
      * bash out squares:
      * draw base line and then draw upwards at intervals of the side length
      * connect the two points
      * rinse, repeat
      * (for loop for the upward lines)
-     * 
+     *
      * apply #4d4d4d as needed
-     * 
-     * @ MrWilson there was probably a more efficient way to do this 
-     * but i tried my best 
+     *
      */
 
     context.beginPath();
@@ -277,7 +285,7 @@ const drawPyramid = function() {
     context.lineTo(10 + (side * 5), 502);
     context.stroke();
     context.closePath();
-    
+
     for (let i = 0; i <= 5; i++) {
         if (i > 0 && i < 5) {
             context.strokeStyle = "#000000";
