@@ -40,7 +40,7 @@ const sayHello = function() {
 
     if (input != null) {
         context.font = ("48px sans-serif");
-        context.strokeText(input, 30, 70, 994);    
+        context.strokeText(input, 30, 70, 994);
     }
 };
 
@@ -105,11 +105,15 @@ const drawColoredRectangle = function() {
     let terminate;
     do {
         var color = prompt("Color: ");
-        color = color.toLowerCase();
-
         if (color == null) {
             terminate = true;
-        } else if (color !== "black" && color !== "blue" && color !== "green" && color !== "orange" && color !== "purple" && color !== "red" && color !== "yellow") {
+            break;
+        } else {
+            color = color.toLowerCase();
+            terminate = false;
+        }
+
+        if (color !== "black" && color !== "blue" && color !== "green" && color !== "orange" && color !== "purple" && color !== "red" && color !== "yellow") {
             alert(`${color} is not a supported color.`);
             context.clearRect(0, 0, canvas.width, canvas.height);
             terminate = false;
@@ -118,8 +122,10 @@ const drawColoredRectangle = function() {
         }
     } while (terminate == false);
 
-    context.fillStyle = color;
-    context.fillRect(10, 10, 100, 50);
+    if (color !== null) {
+        context.fillStyle = color;
+        context.fillRect(10, 10, 100, 50);
+    }
 };
 
 /*
